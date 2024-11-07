@@ -62,7 +62,7 @@ export async function getBehavioralQuestionsForInterview(
 }
 
 export async function getTechnicalQuestions(): Promise<TechnicalQuestion[]> {
-  const url = `/questions/technical/all`;
+  const url = `/questions/technical/all/`;
 
   const res = await api.get(url);
   devPrint('res:', res);
@@ -76,7 +76,7 @@ export async function getTechnicalQuestions(): Promise<TechnicalQuestion[]> {
 export async function getTechnicalQuestion(
   id: string
 ): Promise<TechnicalQuestion> {
-  const url = `/questions/technical/${id}`;
+  const url = `/questions/technical/${id}/`;
 
   const res = await api.get(url);
   devPrint('res:', res);
@@ -104,7 +104,7 @@ export async function createTechnicalQuestion(
 export async function updateTechnicalQuestion(
   question: Partial<TechnicalQuestion>
 ): Promise<TechnicalQuestion> {
-  const url = `/questions/technical/${question.questionId}`;
+  const url = `/questions/technical/${question.questionId}/`;
 
   const { followUps: follow_ups, ...rest } = question;
 

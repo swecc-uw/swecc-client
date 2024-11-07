@@ -5,7 +5,7 @@ import { AxiosResponse } from 'axios';
 import { deserializeMember } from './member';
 
 export async function searchMembers(nameQuery: string): Promise<Member[]> {
-  const url = `/directory/search/?q=${nameQuery}`;
+  const url = `/directory/search/?q=${nameQuery}/`;
   const res: AxiosResponse = await api.get(url);
   devPrint('res:', res);
 
@@ -21,7 +21,7 @@ export async function searchMembers(nameQuery: string): Promise<Member[]> {
 }
 
 export async function getMemberById(userId: number): Promise<Member> {
-  const url = `/directory/${userId}`;
+  const url = `/directory/${userId}/`;
   const res: AxiosResponse = await api.get(url);
   devPrint('res:', res);
 
