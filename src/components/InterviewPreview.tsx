@@ -31,8 +31,8 @@ export const InterviewPreview: React.FC<InterviewPreviewProps> = ({
   useEffect(() => {
     const fetchMembers = async () => {
       const [fetchedInterviewer, fetchedInterviewee] = await Promise.all([
-        getMemberById(interview.interviewer),
-        getMemberById(interview.interviewee),
+        getMemberById(interview.interviewer, true),
+        getMemberById(interview.interviewee, true),
       ]);
       setInterviewer(fetchedInterviewer);
       setInterviewee(fetchedInterviewee);

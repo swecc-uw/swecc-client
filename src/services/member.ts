@@ -37,7 +37,7 @@ export function serializeMember(
 }
 
 export async function getCurrentUser(): Promise<Member> {
-  const url = '/members/profile';
+  const url = '/members/profile/';
   const res = await api.get(url);
 
   devPrint('res:', res);
@@ -51,7 +51,7 @@ export async function getCurrentUser(): Promise<Member> {
 }
 
 export async function getMemberProfile(userId: number): Promise<Member> {
-  const url = `/members/${userId}`;
+  const url = `/members/${userId}/`;
   const res = await api.get(url);
 
   devPrint('res:', res);
@@ -67,7 +67,7 @@ export async function getMemberProfile(userId: number): Promise<Member> {
 export async function updateMemberProfile(
   profile: Partial<Member>
 ): Promise<Member> {
-  const url = `/members/profile`;
+  const url = `/members/profile/`;
 
   const res = await api.put(url, serializeMember(profile));
   devPrint('res:', res);

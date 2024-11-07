@@ -35,7 +35,7 @@ function deserializeInterviewAvailability(
 }
 
 export async function getInterviewsForUser(): Promise<Interview[]> {
-  const res = await api.get('/interview/interviews');
+  const res = await api.get('/interview/interviews/');
 
   return res.data.map(deserializeInterview);
 }
@@ -43,27 +43,27 @@ export async function getInterviewsForUser(): Promise<Interview[]> {
 export async function getInterviewById(
   interviewId: string
 ): Promise<Interview> {
-  const res = await api.get(`/interview/interviews/${interviewId}`);
+  const res = await api.get(`/interview/interviews/${interviewId}/`);
 
   return deserializeInterview(res.data);
 }
 
 export async function getInterviewAvailabilityForCurrentUser(): Promise<InterviewAvailability> {
-  const res = await api.get('/interview/availability');
+  const res = await api.get('/interview/availability/');
   return deserializeInterviewAvailability(res.data);
 }
 
 export async function getInterviewAvailabilityForUser(
   userId: number
 ): Promise<InterviewAvailability> {
-  const res = await api.get(`/interview/availability?member_id=${userId}`);
+  const res = await api.get(`/interview/availability/?member_id=${userId}`);
   return deserializeInterviewAvailability(res.data);
 }
 
 export async function updateInterviewAvailabilityForCurrentUser(
   availability: InterviewAvailability
 ): Promise<InterviewAvailability> {
-  const res = await api.put('/interview/availability', availability);
+  const res = await api.put('/interview/availability/', availability);
   return deserializeInterviewAvailability(res.data);
 }
 
