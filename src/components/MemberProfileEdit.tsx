@@ -35,6 +35,13 @@ import { toDateInputFormat } from '../localization';
 const GITHUB_BASE = 'https://github.com/';
 const LINKEDIN_BASE = 'https://linkedin.com/in/';
 const LEETCODE_BASE = 'https://leetcode.com/u/';
+
+const BASE_URLS = {
+  linkedin: LINKEDIN_BASE,
+  github: GITHUB_BASE,
+  leetcode: LEETCODE_BASE,
+} as const;
+
 interface MemberProfileEditProps {
   member: Member;
   onSave: (profile: Partial<Member>) => void;
@@ -92,7 +99,13 @@ const MemberProfileEdit: React.FC<MemberProfileEditProps> = ({
     const [field, key] = e.target.name.split('.');
     if (!isSocialField(field as keyof Member)) return;
 
-    const val = e.target.value?.split('/').pop();
+    const baseUrl = BASE_URLS[field as keyof typeof BASE_URLS];
+
+    if (e.target.value.length < baseUrl.length) {
+      e.target.value = baseUrl;
+    }
+
+    const val = e.target.value.substring(baseUrl.length);
 
     setProfile((prev) => ({
       ...prev,
