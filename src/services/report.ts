@@ -9,6 +9,7 @@ function deserializedReport({
   admin_id: adminId,
   admin_notes: adminNotes,
   associated_id: associatedId,
+  associated_object: associatedObject,
   created,
   updated,
   ...rest
@@ -20,6 +21,7 @@ function deserializedReport({
     adminId,
     adminNotes,
     associatedId,
+    associatedObject: JSON.stringify(associatedObject),
     created: parseAnyDate(created),
     updated: parseAnyDate(updated),
   };

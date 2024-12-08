@@ -180,7 +180,7 @@ export interface RawTechnicalQuestion {
   source: string;
 }
 
-export type ReportType = 'interview' | 'question';
+export type ReportType = 'interview' | 'question' | 'member';
 
 export type ReportStatus = 'pending' | 'resolving' | 'completed';
 
@@ -209,6 +209,7 @@ export interface RawReport {
   admin_id?: string;
   admin_notes?: string;
   associated_id?: string;
+  associated_object?: string;
 }
 
 export interface Report {
@@ -222,6 +223,7 @@ export interface Report {
   adminId?: string;
   adminNotes?: string;
   associatedId?: string;
+  associatedObject?: string;
 }
 
 export interface RawInterViewPoolStatus {

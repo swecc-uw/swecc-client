@@ -13,10 +13,16 @@ import {
   CardBody,
   Divider,
   useColorModeValue,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalCloseButton,
 } from '@chakra-ui/react';
-import { ChevronDown, ChevronUp, Edit2 } from 'lucide-react';
+import { ChevronDown, ChevronUp, Edit2, Flag } from 'lucide-react';
 import type { TechnicalQuestion } from '../types';
 import { useAuth } from '../hooks/useAuth';
+import ReportPopUp from './ReportPopUp';
 
 interface TechnicalQuestionCardProps {
   question: TechnicalQuestion;
@@ -33,115 +39,149 @@ const TechnicalQuestionCard = ({
   const bgColor = useColorModeValue('white', 'gray.800');
   const expandedBg = useColorModeValue('gray.50', 'gray.700');
   const hoverBg = useColorModeValue('gray.50', 'gray.700');
-  const { isAdmin } = useAuth();
+  const { isAdmin, member } = useAuth();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Card
-      variant="outline"
-      bg={bgColor}
-      borderColor={borderColor}
-      transition="all 0.2s"
-      _hover={{ shadow: 'md' }}
-    >
-      <CardHeader>
-        <HStack justify="space-between" spacing={4}>
-          <HStack spacing={4} flex={1}>
-            <VStack align="flex-start" spacing={2}>
-              <Box>
-                <ReactMarkdown components={ChakraUIRenderer()} skipHtml>
-                  {question.title || question.prompt}
-                </ReactMarkdown>
-              </Box>
-              <Badge colorScheme="purple" px={2} py={1} borderRadius="full">
-                {question.topicName}
-              </Badge>
-            </VStack>
-          </HStack>
-          <HStack spacing={2}>
-            {isAdmin && (
+    <>
+      <Modal
+        isCentered
+        motionPreset="slideInBottom"
+        isOpen={isOpen}
+        size="xl"
+        onClose={onClose}
+      >
+        <ModalOverlay />
+        <ModalContent maxH="800px" maxW="700px">
+          <ModalCloseButton />
+          <ReportPopUp
+            title="Report Question"
+            badgeColorScheme="red"
+            reasonPlaceholder="Enter reason for reporting this question"
+            associatedId={question.questionId}
+            reporterUserId={member?.id}
+            onClose={onClose}
+            type="question"
+          />
+        </ModalContent>
+      </Modal>
+
+      <Card
+        variant="outline"
+        bg={bgColor}
+        borderColor={borderColor}
+        transition="all 0.2s"
+        _hover={{ shadow: 'md' }}
+      >
+        <CardHeader>
+          <HStack justify="space-between" spacing={4}>
+            <HStack spacing={4} flex={1}>
+              <VStack align="flex-start" spacing={2}>
+                <Box>
+                  <ReactMarkdown components={ChakraUIRenderer()} skipHtml>
+                    {question.title || question.prompt}
+                  </ReactMarkdown>
+                </Box>
+                <Badge colorScheme="purple" px={2} py={1} borderRadius="full">
+                  {question.topicName}
+                </Badge>
+              </VStack>
+            </HStack>
+            <HStack spacing={2}>
               <Button
-                as={Link}
-                to={`/questions/technical/edit/${question.questionId}`}
+                onClick={onOpen}
                 variant="ghost"
                 size="sm"
-                leftIcon={<Edit2 size={16} />}
+                leftIcon={<Flag size={16} />}
                 _hover={{ bg: hoverBg }}
               >
-                Edit
+                Report
               </Button>
-            )}
-            <Button
-              onClick={() => onToggleExpand(question.questionId)}
-              variant="ghost"
-              size="sm"
-              rightIcon={
-                isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />
-              }
-              _hover={{ bg: hoverBg }}
-            >
-              {isExpanded ? 'Hide Details' : 'Show Details'}
-            </Button>
+              {isAdmin && (
+                <Button
+                  as={Link}
+                  to={`/questions/technical/edit/${question.questionId}`}
+                  variant="ghost"
+                  size="sm"
+                  leftIcon={<Edit2 size={16} />}
+                  _hover={{ bg: hoverBg }}
+                >
+                  Edit
+                </Button>
+              )}
+              <Button
+                onClick={() => onToggleExpand(question.questionId)}
+                variant="ghost"
+                size="sm"
+                rightIcon={
+                  isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />
+                }
+                _hover={{ bg: hoverBg }}
+              >
+                {isExpanded ? 'Hide Details' : 'Show Details'}
+              </Button>
+            </HStack>
           </HStack>
-        </HStack>
-      </CardHeader>
+        </CardHeader>
 
-      {isExpanded && (
-        <CardBody pt={0}>
-          <Divider my={4} />
-          <VStack spacing={6} align="stretch">
-            <Box>
-              <Text fontWeight="semibold" mb={2}>
-                prompt
-              </Text>
-              <Box p={4} bg={expandedBg} borderRadius="md">
-                <ReactMarkdown components={ChakraUIRenderer()} skipHtml>
-                  {question.prompt}
-                </ReactMarkdown>
-              </Box>
-            </Box>
-
-            {question.solution && (
+        {isExpanded && (
+          <CardBody pt={0}>
+            <Divider my={4} />
+            <VStack spacing={6} align="stretch">
               <Box>
                 <Text fontWeight="semibold" mb={2}>
-                  solution
+                  prompt
                 </Text>
                 <Box p={4} bg={expandedBg} borderRadius="md">
                   <ReactMarkdown components={ChakraUIRenderer()} skipHtml>
-                    {question.solution}
+                    {question.prompt}
                   </ReactMarkdown>
                 </Box>
               </Box>
-            )}
 
-            {question.followUps && (
-              <Box>
-                <Text fontWeight="semibold" mb={2}>
-                  follow-up questions
-                </Text>
-                <Box p={4} bg={expandedBg} borderRadius="md">
-                  <ReactMarkdown components={ChakraUIRenderer()} skipHtml>
-                    {question.followUps}
-                  </ReactMarkdown>
+              {question.solution && (
+                <Box>
+                  <Text fontWeight="semibold" mb={2}>
+                    solution
+                  </Text>
+                  <Box p={4} bg={expandedBg} borderRadius="md">
+                    <ReactMarkdown components={ChakraUIRenderer()} skipHtml>
+                      {question.solution}
+                    </ReactMarkdown>
+                  </Box>
                 </Box>
-              </Box>
-            )}
+              )}
 
-            {question.source && (
-              <Box>
-                <Text fontWeight="semibold" mb={2}>
-                  source
-                </Text>
-                <Box p={4} bg={expandedBg} borderRadius="md">
-                  <ReactMarkdown components={ChakraUIRenderer()} skipHtml>
-                    {question.source}
-                  </ReactMarkdown>
+              {question.followUps && (
+                <Box>
+                  <Text fontWeight="semibold" mb={2}>
+                    follow-up questions
+                  </Text>
+                  <Box p={4} bg={expandedBg} borderRadius="md">
+                    <ReactMarkdown components={ChakraUIRenderer()} skipHtml>
+                      {question.followUps}
+                    </ReactMarkdown>
+                  </Box>
                 </Box>
-              </Box>
-            )}
-          </VStack>
-        </CardBody>
-      )}
-    </Card>
+              )}
+
+              {question.source && (
+                <Box>
+                  <Text fontWeight="semibold" mb={2}>
+                    source
+                  </Text>
+                  <Box p={4} bg={expandedBg} borderRadius="md">
+                    <ReactMarkdown components={ChakraUIRenderer()} skipHtml>
+                      {question.source}
+                    </ReactMarkdown>
+                  </Box>
+                </Box>
+              )}
+            </VStack>
+          </CardBody>
+        )}
+      </Card>
+    </>
   );
 };
 
