@@ -31,10 +31,15 @@ import {
 import { Member, SocialField } from '../types';
 import ProfilePictureUpload from './ProfilePictureUpload';
 import { toDateInputFormat } from '../localization';
+import {
+  GITHUB_PROFILE_BASE_URL,
+  GITHUB_REGEX,
+  LEETCODE_PROFILE_BASE_URL,
+  LEETCODE_REGEX,
+  LINKEDIN_PROFILE_BASE_URL,
+  LINKEDIN_REGEX,
+} from '../constants';
 
-const GITHUB_BASE = 'https://github.com/';
-const LINKEDIN_BASE = 'https://linkedin.com/in/';
-const LEETCODE_BASE = 'https://leetcode.com/u/';
 interface MemberProfileEditProps {
   member: Member;
   onSave: (profile: Partial<Member>) => void;
@@ -125,28 +130,22 @@ const MemberProfileEdit: React.FC<MemberProfileEditProps> = ({
     }));
   };
 
-  const githubRegex = new RegExp(
-    '^(https?:\\/\\/)?(www\\.)?github\\.com\\/.+$'
-  );
-  const leetcodeRegex = new RegExp(
-    '^(https?:\\/\\/)?(www\\.)?leetcode\\.com\\/.+$'
-  );
-  const linkedinRegex = new RegExp(
-    '^(https?:\\/\\/)?(www\\.)?linkedin\\.com\\/in.+$'
-  );
-
   const githubIsInvalid: boolean =
     profile.github?.username !== undefined &&
     profile.github?.username !== '' &&
-    !githubRegex.test(GITHUB_BASE + profile.github?.username);
+    !GITHUB_REGEX.test(GITHUB_PROFILE_BASE_URL + profile.github?.username);
   const leetcodeIsInvalid: boolean =
     profile.leetcode?.username !== undefined &&
     profile.leetcode?.username !== '' &&
-    !leetcodeRegex.test(LEETCODE_BASE + profile.leetcode?.username);
+    !LEETCODE_REGEX.test(
+      LEETCODE_PROFILE_BASE_URL + profile.leetcode?.username
+    );
   const linkedinIsInvalid: boolean =
     profile.linkedin?.username !== undefined &&
     profile.linkedin?.username !== '' &&
-    !linkedinRegex.test(LINKEDIN_BASE + profile.linkedin?.username);
+    !LINKEDIN_REGEX.test(
+      LINKEDIN_PROFILE_BASE_URL + profile.linkedin?.username
+    );
 
   return (
     <Box
@@ -306,9 +305,12 @@ const MemberProfileEdit: React.FC<MemberProfileEditProps> = ({
               <HStack spacing={2}>
                 <Input
                   name="linkedin.username"
-                  value={LINKEDIN_BASE + (profile.linkedin?.username || '')}
+                  value={
+                    LINKEDIN_PROFILE_BASE_URL +
+                    (profile.linkedin?.username || '')
+                  }
                   onChange={handleSocialFieldChange}
-                  placeholder={LINKEDIN_BASE}
+                  placeholder={LINKEDIN_PROFILE_BASE_URL}
                 />
                 <Tooltip
                   label={
@@ -336,9 +338,11 @@ const MemberProfileEdit: React.FC<MemberProfileEditProps> = ({
               <HStack spacing={2}>
                 <Input
                   name="github.username"
-                  value={GITHUB_BASE + (profile.github?.username || '')}
+                  value={
+                    GITHUB_PROFILE_BASE_URL + (profile.github?.username || '')
+                  }
                   onChange={handleSocialFieldChange}
-                  placeholder={GITHUB_BASE}
+                  placeholder={GITHUB_PROFILE_BASE_URL}
                 />
                 <Tooltip
                   label={
@@ -372,9 +376,12 @@ const MemberProfileEdit: React.FC<MemberProfileEditProps> = ({
               <HStack spacing={2}>
                 <Input
                   name="leetcode.username"
-                  value={LEETCODE_BASE + (profile.leetcode?.username || '')}
+                  value={
+                    LEETCODE_PROFILE_BASE_URL +
+                    (profile.leetcode?.username || '')
+                  }
                   onChange={handleSocialFieldChange}
-                  placeholder={LEETCODE_BASE}
+                  placeholder={LEETCODE_PROFILE_BASE_URL}
                 />
                 <Tooltip
                   label={

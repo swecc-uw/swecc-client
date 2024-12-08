@@ -36,6 +36,7 @@ import {
 import { Member } from '../types';
 import { resolveName } from './utils/RandomUtils';
 import { formatDate } from '../localization';
+import { GITHUB_PROFILE_BASE_URL, LEETCODE_PROFILE_BASE_URL } from '../constants';
 
 const stripEmptySocials = (member: Member) => {
   if (member.leetcode?.username?.length == 0) {
@@ -309,7 +310,7 @@ const MemberProfileView: React.FC<MemberProfileViewProps> = ({ member }) => {
             <SocialLink
               icon={FaGithub}
               label="GitHub Profile"
-              href={`https://github.com/${member.github.username}`}
+              href={`${GITHUB_PROFILE_BASE_URL}${member.github.username}`}
               username={member.github.username}
             />
           )}
@@ -325,7 +326,7 @@ const MemberProfileView: React.FC<MemberProfileViewProps> = ({ member }) => {
             <SocialLink
               icon={FaCode}
               label="LeetCode Profile"
-              href={`https://leetcode.com/u/${member.leetcode.username}`}
+              href={`${LEETCODE_PROFILE_BASE_URL}${member.leetcode.username}`}
               username={member.leetcode.username}
             />
           )}

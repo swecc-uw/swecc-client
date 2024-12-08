@@ -20,6 +20,7 @@ import { Github, Linkedin, Code2 } from 'lucide-react';
 import { Member } from '../types';
 import { resolveName } from './utils/RandomUtils';
 import { START_PAGE } from '../pages/DirectoryPage';
+import { GITHUB_PROFILE_BASE_URL, LEETCODE_API_BASE_URL, LINKEDIN_PROFILE_BASE_URL } from '../constants';
 
 interface MemberListProps {
   members: Member[];
@@ -73,7 +74,7 @@ const MemberCard = ({ member }: { member: Member }) => {
                 <Tooltip label="GitHub Profile">
                   <IconButton
                     as="a"
-                    href={`https://github.com/${member.github.username}`}
+                    href={`${GITHUB_PROFILE_BASE_URL}${member.github.username}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="GitHub Profile"
@@ -89,7 +90,7 @@ const MemberCard = ({ member }: { member: Member }) => {
                 <Tooltip label="LinkedIn Profile">
                   <IconButton
                     as="a"
-                    href={`https://linkedin.com/in/${member.linkedin.username}`}
+                    href={`${LINKEDIN_PROFILE_BASE_URL}${member.linkedin.username}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="LinkedIn Profile"
@@ -105,7 +106,7 @@ const MemberCard = ({ member }: { member: Member }) => {
                 <Tooltip label="LeetCode Profile">
                   <IconButton
                     as="a"
-                    href={`https://leetcode.com/${member.leetcode.username}`}
+                    href={`${LEETCODE_API_BASE_URL}${member.leetcode.username}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="LeetCode Profile"

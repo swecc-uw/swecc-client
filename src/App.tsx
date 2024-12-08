@@ -64,7 +64,7 @@ const App: React.FC = () => {
                 </ProtectedRoute>
               }
             />
-            <Route path="/join-swecc" element={<JoinPage />} />
+            <Route path="/join" element={<JoinPage />} />
             <Route
               path="/password-reset-confirm/:uid/:token"
               element={<ResetPasswordForm />}

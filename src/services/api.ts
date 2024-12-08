@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { devPrint } from '../components/utils/RandomUtils';
+import { LOCAL_API_ENDPOINT, PROD_API_ENDPOINT } from '../constants';
 
 const api = axios.create({
-  baseURL: import.meta.env.DEV
-    ? 'http://localhost:8000/'
-    : 'https://api.swecc.org',
+  baseURL: import.meta.env.DEV ? LOCAL_API_ENDPOINT : PROD_API_ENDPOINT,
   withCredentials: true,
 });
 

@@ -20,10 +20,26 @@ import {
   DrawerContent,
   DrawerCloseButton,
 } from '@chakra-ui/react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { Member } from '../types';
 import { useAuth } from '../hooks/useAuth';
+import {
+  FaInstagram,
+  FaLinkedin,
+  FaDiscord,
+  FaGithub,
+  FaEnvelope,
+  FaGlobe,
+} from 'react-icons/fa';
+import {
+  SWECC_INSTAGRAM_LINK,
+  SWECC_LINKEDIN_LINK,
+  SWECC_DISCORD_LINK,
+  SWECC_GITHUB_LINK,
+  SWECC_EMAIL_LINK,
+  SWECC_WEBSITE_LINK,
+} from '../constants';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -41,15 +57,23 @@ interface NavBarProps {
   isVerified: boolean;
 }
 
+const NO_REDIRECT_PATHS = ['/auth', '/join'];
+
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const { isAuthenticated, isAdmin, loading, member, isVerified } = useAuth();
 
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+  console.log('pathname', pathname);
   useEffect(() => {
-    if (!loading && (!isAuthenticated || !isVerified)) {
+    if (
+      !loading &&
+      (!isAuthenticated || !isVerified) &&
+      !NO_REDIRECT_PATHS.includes(pathname)
+    ) {
       navigate('/auth');
     }
-  }, [isAuthenticated, isVerified, loading, navigate]);
+  }, [isAuthenticated, isVerified, loading, navigate, pathname]);
 
   if (loading) {
     return (
@@ -96,7 +120,7 @@ const Navbar: React.FC<NavBarProps> = ({
         </>
       )}
       {isAdmin && <NavLink to="/admin">Admin Dashboard</NavLink>}
-      {!isAuthenticated && <NavLink to="/join-swecc">Join SWECC</NavLink>}
+      {!isAuthenticated && <NavLink to="/join">Join SWECC</NavLink>}
     </>
   );
 
@@ -177,51 +201,42 @@ const NavLink: React.FC<NavLinkProps> = ({ to, children }) => {
 const Footer: React.FC = () => {
   const bg = useColorModeValue('gray.50', 'gray.900');
   const color = useColorModeValue('gray.700', 'gray.200');
+  const hoverColor = useColorModeValue('blue.500', 'blue.300');
+
+  const socialLinks = [
+    { icon: FaInstagram, href: SWECC_INSTAGRAM_LINK, label: 'Instagram' },
+    { icon: FaLinkedin, href: SWECC_LINKEDIN_LINK, label: 'LinkedIn' },
+    { icon: FaDiscord, href: SWECC_DISCORD_LINK, label: 'Discord' },
+    { icon: FaGithub, href: SWECC_GITHUB_LINK, label: 'GitHub' },
+    { icon: FaEnvelope, href: SWECC_EMAIL_LINK, label: 'Email' },
+    { icon: FaGlobe, href: SWECC_WEBSITE_LINK, label: 'Website' },
+  ];
 
   return (
     <Box as="footer" bg={bg} color={color} mt="auto">
       <Container maxW="container.xl" py={12}>
-        <Flex direction={{ base: 'column', md: 'row' }} justify="space-between">
-          <VStack align="start" spacing={4} mb={{ base: 8, md: 0 }}>
-            <Text fontWeight="bold">Product</Text>
-            <FooterLink to="/features">Features</FooterLink>
-            <FooterLink to="/pricing">Pricing</FooterLink>
-          </VStack>
-          <VStack align="start" spacing={4} mb={{ base: 8, md: 0 }}>
-            <Text fontWeight="bold">Company</Text>
-            <FooterLink to="/about">About</FooterLink>
-            <FooterLink to="/blog">Blog</FooterLink>
-          </VStack>
-          <VStack align="start" spacing={4} mb={{ base: 8, md: 0 }}>
-            <Text fontWeight="bold">Support</Text>
-            <FooterLink to="/docs">Documentation</FooterLink>
-            <FooterLink to="/contact">Contact</FooterLink>
-          </VStack>
-          <VStack align="start" spacing={4}>
-            <Text fontWeight="bold">Legal</Text>
-            <FooterLink to="/privacy">Privacy</FooterLink>
-            <FooterLink to="/terms">Terms</FooterLink>
-          </VStack>
+        <Flex direction="column" align="center">
+          <HStack spacing={6} mb={8}>
+            {socialLinks.map((link) => (
+              <ChakraLink
+                key={link.label}
+                href={link.href}
+                isExternal
+                _hover={{ color: hoverColor }}
+                aria-label={link.label}
+              >
+                <link.icon size={24} />
+              </ChakraLink>
+            ))}
+          </HStack>
+
+          <Text textAlign="center" fontSize="sm">
+            © {new Date().getFullYear()} Software Engineering Career Club
+            (SWECC). All rights reserved.
+          </Text>
         </Flex>
-        <Text mt={12} textAlign="center" fontSize="sm">
-          © {new Date().getFullYear()} SWECC. All rights reserved.
-        </Text>
       </Container>
     </Box>
-  );
-};
-
-const FooterLink: React.FC<NavLinkProps> = ({ to, children }) => {
-  return (
-    <Link to={to}>
-      <ChakraLink
-        as="span"
-        fontSize="sm"
-        _hover={{ textDecoration: 'none', color: 'blue.500' }}
-      >
-        {children}
-      </ChakraLink>
-    </Link>
   );
 };
 

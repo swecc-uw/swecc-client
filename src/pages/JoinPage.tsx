@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react';
 import { FaDiscord } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { SWECC_DISCORD_LINK } from '../constants';
 
 const pulseKeyframe = keyframes`
   0% { box-shadow: 0 0 0 0 rgba(88, 101, 242, 0.7); }
@@ -48,10 +49,9 @@ const JoinPage: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
-          <Text fontSize="xl" mb={6}>
-            Connect with like-minded developers, share your projects, and grow
-            your skills. Our Discord community is the perfect place to
-            collaborate and learn!
+          <Text fontSize="l" mb={6}>
+            Connect with like-minded software engineers at the University of
+            Washington
           </Text>
         </MotionBox>
 
@@ -62,7 +62,7 @@ const JoinPage: React.FC = () => {
           colorScheme="purple"
           _hover={{ transform: 'translateY(-5px)' }}
           transition="all 0.2s"
-          onClick={() => window.open('https://swecc.org/discord', '_blank')}
+          onClick={() => window.open(SWECC_DISCORD_LINK, '_blank')}
           animation={`${pulseKeyframe} 2s infinite`}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}

@@ -10,6 +10,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { devPrint } from './utils/RandomUtils';
+import { LEETCODE_API_BASE_URL } from '../constants';
 
 type LeetcodeProfileProps = {
   username: string;
@@ -36,7 +37,7 @@ const LeetcodeProfile = ({ username }: LeetcodeProfileProps) => {
       const fetchProfile = async () => {
         try {
           const response = await fetch(
-            `https://alfa-leetcode-api.onrender.com/${username}/solved`
+            `${LEETCODE_API_BASE_URL}${username}/solved`
           );
           const data = await response.json();
           const {
@@ -77,7 +78,7 @@ const LeetcodeProfile = ({ username }: LeetcodeProfileProps) => {
       ) : (
         <VStack spacing={1}>
           <Heading as="h3" size="lg">
-            <Link href={`https://leetcode.com/${username}`} isExternal>
+            <Link href={`${LEETCODE_API_BASE_URL}${username}`} isExternal>
               {username}&apos;s profile
             </Link>
           </Heading>
