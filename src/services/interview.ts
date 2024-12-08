@@ -17,7 +17,7 @@ import {
   deserializeBehavioralQuestion,
 } from './question';
 
-function serializeInterviewPoolStatus({
+export function serializeInterviewPoolStatus({
   number_sign_up: numberSignUp,
   ...rest
 }: RawInterViewPoolStatus): InterviewPoolStatus {
@@ -27,7 +27,7 @@ function serializeInterviewPoolStatus({
   };
 }
 
-function deserializeInterview({
+export function deserializeInterview({
   interview_id: interviewId,
   date_effective: dateEffective,
   date_completed: dateCompleted,
