@@ -72,7 +72,9 @@ const MemberProfileView: React.FC<MemberProfileViewProps> = ({ member }) => {
   const sectionBg = useColorModeValue('gray.50', 'gray.700');
 
   const toast = useToast();
-  const { onCopy: onDiscordCopy } = useClipboard(member.discordId?.toString());
+  const { onCopy: onDiscordCopy } = useClipboard(
+    member.discordUsername?.toString()
+  );
   const { onCopy: onEmailCopy } = useClipboard(member.email);
   const { member: currentUser } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -271,13 +273,13 @@ const MemberProfileView: React.FC<MemberProfileViewProps> = ({ member }) => {
                 onClick={() => {
                   onDiscordCopy();
                   toast({
-                    title: 'Discord ID copied',
+                    title: 'Discord Username copied',
                     status: 'success',
                     duration: 2000,
                   });
                 }}
               >
-                Copy ID
+                Copy Username
               </Button>
             </HStack>
           </SimpleGrid>
