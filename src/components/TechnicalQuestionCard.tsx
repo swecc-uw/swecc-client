@@ -89,13 +89,13 @@ const TechnicalQuestionCard = ({
             </HStack>
             <HStack spacing={2}>
               <Button
-                onClick={onOpen}
+                leftIcon={<Flag size={16} />}
+                colorScheme="red"
                 variant="ghost"
                 size="sm"
-                leftIcon={<Flag size={16} />}
-                _hover={{ bg: hoverBg }}
+                onClick={onOpen}
               >
-                Report
+                Report Question
               </Button>
               {isAdmin && (
                 <Button
@@ -114,7 +114,11 @@ const TechnicalQuestionCard = ({
                 variant="ghost"
                 size="sm"
                 rightIcon={
-                  isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />
+                  isExpanded ? (
+                    <ChevronUp size={16} />
+                  ) : (
+                    <ChevronDown size={16} />
+                  )
                 }
                 _hover={{ bg: hoverBg }}
               >

@@ -154,8 +154,16 @@ const InterviewView = ({ interview }: { interview: HydratedInterview }) => {
               {status.toUpperCase()}
             </Badge>
           )}
-          <Flag size={20}/>
-          <Button onClick={onOpen}>Report Interview</Button>
+          <Flag size={20} />
+          <Button
+            leftIcon={<Flag size={16} />}
+            colorScheme="red"
+            variant="ghost"
+            size="sm"
+            onClick={onOpen}
+          >
+            Report Interview
+          </Button>
         </Flex>
       </Flex>
 
