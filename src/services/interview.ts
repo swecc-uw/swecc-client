@@ -9,6 +9,7 @@ import {
   RawMemberData,
   RawInterViewPoolStatus,
   InterviewPoolStatus,
+  RawSignup,
 } from '../types';
 import api from './api';
 import { deserializeMember } from './member';
@@ -136,4 +137,11 @@ export async function getInterviewPoolStatus(): Promise<InterviewPoolStatus> {
   return api
     .get('/interview/status')
     .then((res) => serializeInterviewPoolStatus(res.data));
+}
+
+// use Raw type directly to skip deserialization
+export function getSignupTimeline(days: number = 20): Promise<RawSignup[]> {
+  return api
+    .get('/interview/signups/', { params: { days } })
+    .then((res) => res.data);
 }

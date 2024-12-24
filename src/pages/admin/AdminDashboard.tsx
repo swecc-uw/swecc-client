@@ -113,6 +113,12 @@ export default function AdminDashboard() {
         label: 'View Pairing Dashboard',
         to: '/pairing',
       },
+      secondaryActions: [
+        {
+          label: 'View Signup Heatmap',
+          to: '/signups',
+        },
+      ],
     },
     {
       title: 'Reports',

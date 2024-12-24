@@ -243,3 +243,9 @@ export interface InterviewPoolStatus {
   numberSignUp: number;
   members: string[];
 }
+
+export interface RawSignup {
+  timestamp: number;
+  username: string;
+  user_id: string;
+}

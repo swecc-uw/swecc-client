@@ -21,11 +21,15 @@ const TIME_FORMAT: Intl.DateTimeFormatOptions = {
   timeZoneName: 'short',
 };
 
+export const TEN_MINUTES = 10 * 60 * 1000;
+export const DAY = 24 * 60 * 60 * 1000;
+
 /**
- * parse a Date object from either ISO UTC or YYYY-MM-DD string
+ * parse a Date object from either ISO UTC, YYYY-MM-DD string, or timestamp
  */
-export function parseAnyDate(input: string | Date): Date {
-  if (input instanceof Date) return input;
+export function parseAnyDate(input: string | Date | number): Date {
+  if (input instanceof Date || typeof input === 'number')
+    return new Date(input);
 
   // yyyy-mm-dd
   if (input.includes('-') && input.length === 10) {
@@ -40,12 +44,20 @@ export function parseAnyDate(input: string | Date): Date {
 /**
  * format date for display to users
  */
-export function formatDate(date: string | Date, includeTime = false): string {
+export function formatDate(
+  date: string | Date | number,
+  includeTime = false,
+  showUTC = false
+): string {
   const d = parseAnyDate(date);
-  if (includeTime) {
-    return d.toLocaleString('en-US', { ...DATE_FORMAT, ...TIME_FORMAT });
-  }
-  return d.toLocaleDateString('en-US', DATE_FORMAT);
+
+  let opt = { ...DATE_FORMAT };
+  if (includeTime) opt = { ...opt, ...TIME_FORMAT };
+  if (showUTC) opt.timeZone = 'UTC';
+
+  return includeTime
+    ? d.toLocaleString('en-US', opt)
+    : d.toLocaleDateString('en-US', opt);
 }
 
 export function startOfDayUTC(date: string | Date): Date {

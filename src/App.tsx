@@ -25,6 +25,7 @@ import { QuestionType } from './types';
 import ReportDashboard from './pages/admin/ReportDashboard';
 import ResetPasswordForm from './pages/ResetPassword';
 import AdminConsolePage from './pages/admin/AdminConsolePage';
+import HeatMapPage from './pages/admin/HeatMapPage';
 
 const App: React.FC = () => {
   return (
@@ -53,6 +54,16 @@ const App: React.FC = () => {
               element={
                 <ProtectedRoute>
                   <ViewInterviewsPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/signups/"
+              element={
+                <ProtectedRoute>
+                  <AdminRoute>
+                    <HeatMapPage />
+                  </AdminRoute>
                 </ProtectedRoute>
               }
             />

@@ -1,13 +1,12 @@
-import { getThisUpcomingSunday } from '../../localization';
+import { addDays, getThisUpcomingSunday } from '../../localization';
 
 const getDefaultDayLabels = () => {
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const nextSunday = getThisUpcomingSunday();
 
   return days.map((day, i) => {
-    const date = new Date(nextSunday);
-    date.setDate(nextSunday.getDate() + i);
-    return `${day} ${date.getMonth() + 1}/${date.getDate()}`;
+    const date = addDays(nextSunday, i);
+    return `${day} ${date.getUTCMonth() + 1}/${date.getUTCDate()}`;
   });
 };
 
